@@ -582,7 +582,7 @@ for i=1:72
     end
 end
 
-filename = strcat('iCount_task_',SubjectID,'_',Date,'.xlsx');
+filename = strcat('sub-',SubjectID,'_task-main_beh-',Date,'.xlsx');
 xlswrite(filename,output);
 
 Screen('CloseAll');

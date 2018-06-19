@@ -535,7 +535,7 @@ for i=1:4
     end
 end
 
-filename = strcat('iCount_practice_',SubjectID,'_',Date,'.xlsx');
+filename = strcat('sub-',SubjectID,'_task-practice_beh-',Date,'.xlsx');
 xlswrite(filename,output);
 
 Screen('CloseAll');
