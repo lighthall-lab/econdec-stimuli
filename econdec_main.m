@@ -1,4 +1,4 @@
-fast = 0;
+fast = 1;
 facegendervec=[zeros(1,72),ones(1,72)];
 
 %% Initialize path
@@ -241,8 +241,8 @@ for i=1:12
     
     % determine the fractal images to be used for this block
     balance = 0;
-    stock = strcat(pwd,'\Fractals_edited\fractal',num2str(sfracassignvec(i)),sfracletassignvec{i},'.jpg');
-    bond = strcat(pwd,'\Fractals_edited\fractal',num2str(bfracassignvec(i)),bfracletassignvec{i},'.jpg');
+    stock = strcat(pwd,'\fractals\fractal',num2str(sfracassignvec(i)),sfracletassignvec{i},'.jpg');
+    bond = strcat(pwd,'\fractals\fractal',num2str(bfracassignvec(i)),bfracletassignvec{i},'.jpg');
     for j=1:6
         output{(i-1)*6+j+1,29} = sfracassignvec(i);
         output{(i-1)*6+j+1,30} = bfracassignvec(i);
