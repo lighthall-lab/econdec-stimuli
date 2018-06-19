@@ -150,7 +150,7 @@ totpayout=0;
 
 % instructions
 for j=1:11
-    instructions{j}=['Slide',num2str(j),'.png'];
+    instructions{j}=['Slide',num2str(j),'.tif'];
     I=instructions(j); I=I{1}(:,:); inst=imread(I); inst=imresize(inst, [2*x, 2*y]);
     instructions{j} = Screen('MakeTexture',w,inst);
 end
