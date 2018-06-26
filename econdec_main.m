@@ -1,4 +1,4 @@
-fast = 1;
+fast = 0;
 facegendervec=[zeros(1,72),ones(1,72)];
 
 %% Initialize path
