@@ -1,5 +1,8 @@
-fast = 0;
+fast = 0;%
 facegendervec=[zeros(1,72),ones(1,72)];
+
+% Start at $15.00
+initpay = 15;
 
 %% Initialize path
 
@@ -408,17 +411,17 @@ for i=1:12
             lr = 0;
             img1 = imread(stock);
             img2 = imread(bond);
-            DrawFormattedText(w,'Stock',x-220,y-170,[0 0 0]);
-            DrawFormattedText(w,'Bond',x+130,y-170,[0 0 0]);
+            DrawFormattedText(w,'Stock',x-200,y-130,[0 0 0]);
+            DrawFormattedText(w,'Bond',x+150,y-130,[0 0 0]);
             if strcmp(domain,'Gain');
-                DrawFormattedText(w,'Payoff: $2 or $10',x-300,y+130,[0 0 0]);
-                DrawFormattedText(w,'Payoff: $6',x+60,y+130,[0 0 0]);
+                DrawFormattedText(w,'Payoff: $2 or $10',x-280,y+130,[0 0 0]);
+                DrawFormattedText(w,'Payoff: $6',x+80,y+130,[0 0 0]);
             else
-                DrawFormattedText(w,'Payoff: -$2 or -$10',x-300,y+130,[0 0 0]);
-                DrawFormattedText(w,'Payoff: -$6',x+60,y+130,[0 0 0]);
+                DrawFormattedText(w,'Payoff: -$2 or -$10',x-280,y+130,[0 0 0]);
+                DrawFormattedText(w,'Payoff: -$6',x+80,y+130,[0 0 0]);
             end
-            DrawFormattedText(w,'Press 1',x-300,y+160,[0 0 0]);
-            DrawFormattedText(w,'Press 0',x+60,y+160,[0 0 0]);
+            DrawFormattedText(w,'Press 1',x-280,y+160,[0 0 0]);
+            DrawFormattedText(w,'Press 0',x+80,y+160,[0 0 0]);
             output{(i-1)*6+j+1,11}='s';
             output{(i-1)*6+j+1,12}='b';
             output{(i-1)*6+j+1,13}=stock;
@@ -427,25 +430,25 @@ for i=1:12
             lr = 1;
             img1 = imread(bond);
             img2 = imread(stock);
-            DrawFormattedText(w,'Bond',x-220,y-170,[0 0 0]);
-            DrawFormattedText(w,'Stock',x+130,y-170,[0 0 0]);
+            DrawFormattedText(w,'Bond',x-200,y-130,[0 0 0]);
+            DrawFormattedText(w,'Stock',x+150,y-130,[0 0 0]);
             if strcmp(domain,'Gain');
-                DrawFormattedText(w,'Payoff: $6',x-300,y+130,[0 0 0]);
-                DrawFormattedText(w,'Payoff: $2 or $10',x+60,y+130,[0 0 0]);
+                DrawFormattedText(w,'Payoff: $6',x-280,y+130,[0 0 0]);
+                DrawFormattedText(w,'Payoff: $2 or $10',x+80,y+130,[0 0 0]);
             else
-                DrawFormattedText(w,'Payoff: -$6',x-300,y+130,[0 0 0]);
-                DrawFormattedText(w,'Payoff: -$2 or -$10',x+60,y+130,[0 0 0]);
+                DrawFormattedText(w,'Payoff: -$6',x-280,y+130,[0 0 0]);
+                DrawFormattedText(w,'Payoff: -$2 or -$10',x+80,y+130,[0 0 0]);
             end
-            DrawFormattedText(w,'Press 1',x-300,y+160,[0 0 0]);
-            DrawFormattedText(w,'Press 0',x+60,y+160,[0 0 0]);
+            DrawFormattedText(w,'Press 1',x-280,y+160,[0 0 0]);
+            DrawFormattedText(w,'Press 0',x+80,y+160,[0 0 0]);
             output{(i-1)*6+j+1,11}='b';
             output{(i-1)*6+j+1,12}='s';
             output{(i-1)*6+j+1,13}=stock;
             output{(i-1)*6+j+1,14}=bond;
         end
-        DrawFormattedText(w,'Choose:',x-60,y-250,[0 0 0]);
-        Screen('PutImage',w,img1,[x-300,y-120,x-60,y+120]);
-        Screen('PutImage',w,img2,[x+60,y-120,x+300,y+120]);
+        DrawFormattedText(w,'Choose:','center',y-190,[0 0 0]);
+        Screen('PutImage',w,img1,[x-280,y-100,x-80,y+100]);
+        Screen('PutImage',w,img2,[x+80,y-100,x+280,y+100]);
         Screen('Flip',w);
         % time response
         timer1a = GetSecs;
@@ -574,6 +577,7 @@ for i=1:12
     end
 end
 
+% Flag estimations-in-range for bonus calculation
 for i=1:72
     if abs(str2num(output{i+1,23})-100*output{i+1,33})<=5
         output{i+1,34} = 1;
@@ -582,7 +586,35 @@ for i=1:72
     end
 end
 
+% count number of estimations-in-range
+correst = sum(cell2mat(output(2:end,34)));
+% $.10 per estimation-in-range
+correstpay = .1*correst;
+% $.10 per $1.00 in bank
+final_balance = output{end,32};
+pickpay = .1 * final_balance;
+% sum bonus
+totpayout = initpay+correstpay+pickpay;
+
+payoutmessage1 = strcat('accumulated earnings: $',num2str(final_balance));
+DrawFormattedText(w,payoutmessage1,'center',y-200,[0 0 0]);
+
+DrawFormattedText(w,'$15.00 initial payout','center',y-50,[0 0 0]);
+payoutmessage2 = strcat('+ $',num2str(pickpay),' for stock/bond choices (10% of accumulated earnings)');
+DrawFormattedText(w,payoutmessage2,'center',y,[0 0 0]);
+payoutmessage3 = strcat('+ $',num2str(correstpay),' for accuracy in estimating stock probability');
+DrawFormattedText(w,payoutmessage3,'center',y+50,[0 0 0]);
+DrawFormattedText(w,strcat('= $',num2str(totpayout),' total payout'),'center',y+100,[0 0 0]);
+Screen('Flip',w);
+
 filename = strcat('sub-',SubjectID,'_task-main_beh-',Date,'.xlsx');
 xlswrite(filename,output);
+
+while ~strcmp(resp, 'q')
+    ListenChar(2);
+    [endrt, keyCode, deltaSecs]=KbWait([],2);
+    resp=KbName(keyCode);
+end
+resp=''; ListenChar();
 
 Screen('CloseAll');
