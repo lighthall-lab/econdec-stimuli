@@ -361,17 +361,17 @@ for i=1:2 %block number
             lr = 0;
             img1 = imread(stock);
             img2 = imread(bond);
-            DrawFormattedText(w,'Stock',x-220,y-170,[0 0 0]);
-            DrawFormattedText(w,'Bond',x+130,y-170,[0 0 0]);
+            DrawFormattedText(w,'Stock',x-200,y-130,[0 0 0]);
+            DrawFormattedText(w,'Bond',x+150,y-130,[0 0 0]);
             if strcmp(domain,'Gain');
-                DrawFormattedText(w,'Payoff: $2 or $10',x-300,y+130,[0 0 0]);
-                DrawFormattedText(w,'Payoff: $6',x+60,y+130,[0 0 0]);
+                DrawFormattedText(w,'Payoff: $2 or $10',x-280,y+130,[0 0 0]);
+                DrawFormattedText(w,'Payoff: $6',x+80,y+130,[0 0 0]);
             else
-                DrawFormattedText(w,'Payoff: -$2 or -$10',x-300,y+130,[0 0 0]);
-                DrawFormattedText(w,'Payoff: -$6',x+60,y+130,[0 0 0]);
+                DrawFormattedText(w,'Payoff: -$2 or -$10',x-280,y+130,[0 0 0]);
+                DrawFormattedText(w,'Payoff: -$6',x+80,y+130,[0 0 0]);
             end
-            DrawFormattedText(w,'Press 1',x-300,y+160,[0 0 0]);
-            DrawFormattedText(w,'Press 0',x+60,y+160,[0 0 0]);
+            DrawFormattedText(w,'Press 1',x-280,y+160,[0 0 0]);
+            DrawFormattedText(w,'Press 0',x+80,y+160,[0 0 0]);
             output{(i-1)*2+j+1,11}='s';
             output{(i-1)*2+j+1,12}='b';
             output{(i-1)*2+j+1,13}=stock;
@@ -380,25 +380,25 @@ for i=1:2 %block number
             lr = 1;
             img1 = imread(bond);
             img2 = imread(stock);
-            DrawFormattedText(w,'Bond',x-220,y-170,[0 0 0]);
-            DrawFormattedText(w,'Stock',x+130,y-170,[0 0 0]);
+            DrawFormattedText(w,'Bond',x-200,y-130,[0 0 0]);
+            DrawFormattedText(w,'Stock',x+150,y-130,[0 0 0]);
             if strcmp(domain,'Gain');
-                DrawFormattedText(w,'Payoff: $6',x-300,y+130,[0 0 0]);
-                DrawFormattedText(w,'Payoff: $2 or $10',x+60,y+130,[0 0 0]);
+                DrawFormattedText(w,'Payoff: $6',x-280,y+130,[0 0 0]);
+                DrawFormattedText(w,'Payoff: $2 or $10',x+80,y+130,[0 0 0]);
             else
-                DrawFormattedText(w,'Payoff: -$6',x-300,y+130,[0 0 0]);
-                DrawFormattedText(w,'Payoff: -$2 or -$10',x+60,y+130,[0 0 0]);
+                DrawFormattedText(w,'Payoff: -$6',x-280,y+130,[0 0 0]);
+                DrawFormattedText(w,'Payoff: -$2 or -$10',x+80,y+130,[0 0 0]);
             end
-            DrawFormattedText(w,'Press 1',x-300,y+160,[0 0 0]);
-            DrawFormattedText(w,'Press 0',x+60,y+160,[0 0 0]);
+            DrawFormattedText(w,'Press 1',x-280,y+160,[0 0 0]);
+            DrawFormattedText(w,'Press 0',x+80,y+160,[0 0 0]);
             output{(i-1)*2+j+1,11}='b';
             output{(i-1)*2+j+1,12}='s';
             output{(i-1)*2+j+1,13}=stock;
             output{(i-1)*2+j+1,14}=bond;
         end
-        DrawFormattedText(w,'Choose:',x-60,y-250,[0 0 0]);
-        Screen('PutImage',w,img1,[x-300,y-120,x-60,y+120]);
-        Screen('PutImage',w,img2,[x+60,y-120,x+300,y+120]);
+        DrawFormattedText(w,'Choose:','center',y-190,[0 0 0]);
+        Screen('PutImage',w,img1,[x-280,y-100,x-80,y+100]);
+        Screen('PutImage',w,img2,[x+80,y-100,x+280,y+100]);
         Screen('Flip',w);
         % time response
         timer1a = GetSecs;
