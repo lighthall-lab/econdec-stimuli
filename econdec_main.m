@@ -1,30 +1,24 @@
 fast = 0;%
 facegendervec=[zeros(1,72),ones(1,72)];
 
-% Start at $15.00
-initpay = 15;
+% Start at $25.00
+initpay = 25;
 
 %% Initialize path
 
-prompt = {'Enter Directory. If already in directory, press 1','SubjectID','AgeGroup','Experimenter Name'};
-titl = 'iCount Setup';
-lines = 1;
-answer = inputdlg(prompt, titl, lines);
-progDir = answer{1};
-if str2double(progDir) == 1; progDir = cd; else cd(strcat(progDir,'\'));end
-SubjectID = answer{2};
-AgeGroup=answer{3};
-ExperimenterName = answer{4};
+prompt = {'SubjectID','AgeGroup','Experimenter Name'};
+title = 'EconDec Setup';
+answer = inputdlg(prompt, title, 1);
 
-check=dir;
-for i=1:size(check)
-    if length(check(i).name) < 19
-        % ignore
-    elseif strcmp(check(i).name(13:15),answer{2})
-        errordlg('Subject ID already in use. Try again.');
-        error('Subject ID already in use.');
-    end
-end
+SubjectID = answer{1};
+AgeGroup=answer{2};
+ExperimenterName = answer{3};
+progDir = cd;
+
+% create output directory, set output filename
+output_dir = fullfile(cd,['sub-',SubjectID]);
+mkdir(output_dir);
+filename = fullfile(output_dir,['sub-',SubjectID,'_task-main_beh.xlsx']);
 
 clockT=clock;
 Date=strcat(num2str(clockT(2)),'_',num2str(clockT(3)));
@@ -138,7 +132,7 @@ for i = 1:72
     output{i+1,1}=SubjectID;
     output{i+1,2}=AgeGroup;
     output{i+1,3}=ExperimenterName;
-    output{i+1,5}=Date;
+    output{i+1,5}=date;
     output{i+1,6}=ClockTime;
 end
 
@@ -593,21 +587,31 @@ correstpay = .1*correst;
 % $.10 per $1.00 in bank
 final_balance = output{end,32};
 pickpay = .1 * final_balance;
+
 % sum bonus
 totpayout = initpay+correstpay+pickpay;
+if totpayout < (initpay - 5); % don't let the payout go below the minimum
+    totpayout = (initpay - 5);
+end
 
-payoutmessage1 = strcat('accumulated earnings: $',num2str(final_balance));
-DrawFormattedText(w,payoutmessage1,'center',y-200,[0 0 0]);
 
-DrawFormattedText(w,'$15.00 initial payout','center',y-50,[0 0 0]);
+payoutmessage0 = strcat('accumulated earnings: $',num2str(final_balance));
+DrawFormattedText(w,payoutmessage0,'center',y-200,[0 0 0]);
+
+payoutmessage1 = strcat('$',num2str(initpay),'.00 initial payout');
+DrawFormattedText(w,payoutmessage1,'center',y-50,[0 0 0]);
+
 payoutmessage2 = strcat('+ $',num2str(pickpay),' for stock/bond choices (10% of accumulated earnings)');
 DrawFormattedText(w,payoutmessage2,'center',y,[0 0 0]);
+
 payoutmessage3 = strcat('+ $',num2str(correstpay),' for accuracy in estimating stock probability');
 DrawFormattedText(w,payoutmessage3,'center',y+50,[0 0 0]);
-DrawFormattedText(w,strcat('= $',num2str(totpayout),' total payout'),'center',y+100,[0 0 0]);
+
+payoutmessage4 = strcat('= $',num2str(totpayout),' total payout');
+DrawFormattedText(w,payoutmessage4,'center',y+100,[0 0 0]);
 Screen('Flip',w);
 
-filename = strcat('sub-',SubjectID,'_task-main_beh-',Date,'.xlsx');
+% output datafile
 xlswrite(filename,output);
 
 while ~strcmp(resp, 'q')
