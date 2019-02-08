@@ -1,5 +1,5 @@
 nback/
 proc/
 *.xlsx
-*Thumbs.db
+Thumbs.db
 .DS_Store
