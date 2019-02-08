@@ -13,6 +13,10 @@ SubjectID = answer{2};
 AgeGroup=answer{3};
 ExperimenterName = answer{4};
 
+output_dir = fullfile(cd,'..','sourcedata',['sub-',SubjectID]);
+mkdir(output_dir);
+filename = fullfile(output_dir,['sub-',SubjectID,'_task-practice_beh-','.xlsx']);
+
 clockT=clock;
 Date=strcat(num2str(clockT(2)),'_',num2str(clockT(3)));
 ClockTime=strcat(num2str(clockT(4)),':',num2str(clockT(5)),':',num2str(clockT(6)));
@@ -217,7 +221,7 @@ for i=1:2 %block number
         counter1 = counter1a;
         domain = 'Gain';
         for j=1
-            instructions{j}=['Slide13.png'];
+            instructions{j}=['Slide13.TIF'];
             I=instructions(j); I=I{1}(:,:); inst=imread(I); inst=imresize(inst, [2*x, 2*y]);
             instructions{j} = Screen('MakeTexture',w,inst);
         end
@@ -242,7 +246,7 @@ for i=1:2 %block number
         counter1 = counter1b;
         domain = 'Gain';
         for j=1
-            instructions{j}=['Slide13.png'];
+            instructions{j}=['Slide13.tif'];
             I=instructions(j); I=I{1}(:,:); inst=imread(I); inst=imresize(inst, [2*x, 2*y]);
             instructions{j} = Screen('MakeTexture',w,inst);
         end
@@ -267,7 +271,7 @@ for i=1:2 %block number
         counter1 = counter1c;
         domain = 'Loss';
         for j=1
-            instructions{j}=['Slide12.png'];
+            instructions{j}=['Slide12.tif'];
             I=instructions(j); I=I{1}(:,:); inst=imread(I); inst=imresize(inst, [2*x, 2*y]);
             instructions{j} = Screen('MakeTexture',w,inst);
         end
@@ -292,7 +296,7 @@ for i=1:2 %block number
         counter1 = counter1d;
         domain = 'Loss';
         for j=1
-            instructions{j}=['Slide12.png'];
+            instructions{j}=['Slide12.tif'];
             I=instructions(j); I=I{1}(:,:); inst=imread(I); inst=imresize(inst, [2*x, 2*y]);
             instructions{j} = Screen('MakeTexture',w,inst);
         end
@@ -535,7 +539,6 @@ for i=1:4
     end
 end
 
-filename = strcat('sub-',SubjectID,'_task-practice_beh-',Date,'.xlsx');
 xlswrite(filename,output);
 
 Screen('CloseAll');

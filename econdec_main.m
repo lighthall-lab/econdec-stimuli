@@ -16,7 +16,7 @@ ExperimenterName = answer{3};
 progDir = cd;
 
 % create output directory, set output filename
-output_dir = fullfile(cd,['sub-',SubjectID]);
+output_dir = fullfile(cd,'..','sourcedata',['sub-',SubjectID]);
 mkdir(output_dir);
 filename = fullfile(output_dir,['sub-',SubjectID,'_task-main_beh.xlsx']);
 
